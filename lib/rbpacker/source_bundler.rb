@@ -26,7 +26,10 @@ module Rbpacker
 
     def initialize
       loaded_files = Set.new
+
+      # @type var collected_sources: Array[String]
       collected_sources = []
+
       depth = 0
       original_require_relative = Kernel.instance_method(:require_relative)
       bundler = self
@@ -35,7 +38,7 @@ module Rbpacker
         filepath += ".rb" unless filepath.end_with?(".rb")
         abs_path = File.expand_path(filepath)
 
-        return true if loaded_files.include?(abs_path)
+        return bundler if loaded_files.include?(abs_path)
 
         loaded_files.add(abs_path)
         code = File.read(abs_path)
@@ -43,7 +46,12 @@ module Rbpacker
 
         if depth == 0
           Kernel.send(:define_method, :require_relative) do |relative_path|
-            caller_path = caller_locations(1, 1).first.path
+            caller_location = caller_locations(1, 1)&.first
+            raise Error, "caller location is not found" unless caller_location
+
+            caller_path = caller_location.path
+            raise Error, "caller path is not found" unless caller_path
+
             caller_dir = File.dirname(caller_path)
             target_path = File.expand_path(relative_path, caller_dir)
 
@@ -73,7 +81,10 @@ module Rbpacker
 
     def strip_require_relative(code)
       code.gsub(REQUIRE_RELATIVE_PATTERN) do
-        Regexp.last_match[:separator] == ";" ? ";" : ""
+        match = Regexp.last_match
+        raise Error, "regexp match is not found" unless match
+
+        match[:separator] == ";" ? ";" : ""
       end
     end
   end
