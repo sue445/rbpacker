@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Rbpacker
+  # Bundles Ruby source files into a single script by resolving `require_relative`.
   class SourceBundler
     REQUIRE_RELATIVE_PATTERN = /
       (?<separator>\A|[;\n])
