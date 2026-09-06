@@ -15,8 +15,10 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.2.0"
   spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
+  spec.metadata["documentation_uri"] = "https://sue445.github.io/rbpacker/"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Uncomment the line below to require MFA for gem pushes.
   # This helps protect your gem from supply chain attacks by ensuring
