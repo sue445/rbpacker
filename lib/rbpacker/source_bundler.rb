@@ -45,7 +45,7 @@ module Rbpacker
         code = File.read(abs_path)
         source = strip_require_relative(code)
 
-        if depth == 0
+        if depth.zero?
           Kernel.send(:define_method, :require_relative) do |relative_path|
             caller_location = caller_locations(1, 1)&.first
             raise Error, "caller location is not found" unless caller_location
@@ -67,7 +67,7 @@ module Rbpacker
         ensure
           depth -= 1
 
-          Kernel.send(:define_method, :require_relative, original_require_relative) if depth == 0
+          Kernel.send(:define_method, :require_relative, original_require_relative) if depth.zero?
         end
 
         bundler
