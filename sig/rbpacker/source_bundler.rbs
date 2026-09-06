@@ -1,0 +1,17 @@
+module Rbpacker
+  class SourceBundler
+    REQUIRE_RELATIVE_PATTERN: Regexp
+
+    def initialize: () -> void
+    def bundle: (String file_path) -> SourceBundler
+    def result: () -> String
+
+    private
+
+    def with_require_relative_hook: () { () -> untyped } -> untyped
+    def define_require_relative_hook: () -> void
+    def restore_require_relative: () -> void
+    def eval_and_collect_source: (String code, String abs_path) -> void
+    def strip_require_relative: (String code) -> String
+  end
+end
