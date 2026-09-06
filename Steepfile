@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # D = Steep::Diagnostic
 #
 target :lib do
   signature "sig"
   ignore_signature "sig/test"
 
-  check "lib"                       # Directory name
+  check "lib" # Directory name
   # check "path/to/source.rb"         # File name
   # check "app/models/**/*.rb"        # Glob
   # ignore "lib/templates/*.rb"

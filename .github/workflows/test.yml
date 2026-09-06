@@ -110,6 +110,25 @@ jobs:
           status: ${{ job.status }}
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
 
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: ruby
+          bundler-cache: true
+
+      - name: bundle update
+        run: |
+          set -xe
+          bundle config path vendor/bundle
+          bundle update --all --jobs $(nproc) --retry 3
+
+      - run: bundle exec rake rubocop
+
   all-pass:
     if: always()
 
@@ -117,6 +136,7 @@ jobs:
       - test
       - rbs
       - yard
+      - rubocop
 
     runs-on: ubuntu-slim
 
