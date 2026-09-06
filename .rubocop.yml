@@ -13,6 +13,14 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 3.3
   SuggestExtensions: false
+  Exclude:
+    - 'spec/fixtures/**/*'
+
+    # ref. https://github.com/rubocop/rubocop/blob/v1.90.0/config/default.yml#L56
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
 
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
