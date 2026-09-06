@@ -12,4 +12,14 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include FixtureUtil
+end
+
+def spec_dir
+  Pathname(__dir__)
+end
+
+def fixtures_dir
+  spec_dir.join("fixtures")
 end
