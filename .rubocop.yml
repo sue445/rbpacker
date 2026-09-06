@@ -28,5 +28,10 @@ Gemspec/DevelopmentDependencies:
 Layout/LeadingCommentSpace:
   AllowRBSInlineAnnotation: true
 
+Metrics/BlockLength:
+  Exclude:
+    - "*.gemspec"
+    - 'spec/**/*'
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
