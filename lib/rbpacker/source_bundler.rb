@@ -19,67 +19,80 @@ module Rbpacker
       (?=;|\n|\z)
     /x
 
-    # @!method bundle(filepath)
-    #   @param file_path [String]
-
-    # @!method result
-    #   @return [String]
-
     def initialize
-      loaded_files = Set.new
+      @loaded_files = Set.new
+      @collected_sources = [] #: Array[String]
+      @depth = 0
+      @original_require_relative = Kernel.instance_method(:require_relative)
+    end
 
-      # @type var collected_sources: Array[String]
-      collected_sources = []
+    # @param filepath [String]
+    #
+    # @return [SourceBundler]
+    def bundle(filepath)
+      filepath += ".rb" unless filepath.end_with?(".rb")
+      abs_path = File.expand_path(filepath)
 
-      depth = 0
-      original_require_relative = Kernel.instance_method(:require_relative)
-      bundler = self
+      return self if @loaded_files.include?(abs_path)
 
-      define_singleton_method(:bundle) do |filepath|
-        filepath += ".rb" unless filepath.end_with?(".rb")
-        abs_path = File.expand_path(filepath)
+      @loaded_files.add(abs_path)
+      code = File.read(abs_path)
 
-        return bundler if loaded_files.include?(abs_path)
-
-        loaded_files.add(abs_path)
-        code = File.read(abs_path)
-        source = strip_require_relative(code)
-
-        if depth.zero?
-          Kernel.send(:define_method, :require_relative) do |relative_path|
-            caller_location = caller_locations(1, 1)&.first
-            raise Error, "caller location is not found" unless caller_location
-
-            caller_path = caller_location.path
-            raise Error, "caller path is not found" unless caller_path
-
-            caller_dir = File.dirname(caller_path)
-            target_path = File.expand_path(relative_path, caller_dir)
-
-            bundler.bundle(target_path)
-          end
-        end
-
-        depth += 1
-        begin
-          TOPLEVEL_BINDING.eval(code, abs_path)
-          collected_sources << source unless source.strip.empty?
-        ensure
-          depth -= 1
-
-          Kernel.send(:define_method, :require_relative, original_require_relative) if depth.zero?
-        end
-
-        bundler
+      with_require_relative_hook do
+        eval_and_collect_source(code, abs_path)
       end
 
-      define_singleton_method(:result) do
-        collected_sources.join
-      end
+      self
+    end
+
+    # @return [String]
+    def result
+      @collected_sources.join
     end
 
     private
 
+    # @yield
+    def with_require_relative_hook
+      define_require_relative_hook if @depth.zero?
+
+      @depth += 1
+      yield
+    ensure
+      @depth -= 1
+
+      restore_require_relative if @depth.zero?
+    end
+
+    def define_require_relative_hook
+      bundler = self
+
+      Kernel.send(:define_method, :require_relative) do |relative_path|
+        caller_location = caller_locations(1, 1)&.first
+        raise Error, "caller location is not found" unless caller_location
+
+        caller_path = caller_location.path
+        raise Error, "caller path is not found" unless caller_path
+
+        caller_dir = File.dirname(caller_path)
+        target_path = File.expand_path(relative_path, caller_dir)
+
+        bundler.bundle(target_path)
+      end
+    end
+
+    def restore_require_relative
+      Kernel.send(:define_method, :require_relative, @original_require_relative)
+    end
+
+    def eval_and_collect_source(code, abs_path)
+      source = strip_require_relative(code)
+
+      TOPLEVEL_BINDING.eval(code, abs_path)
+      @collected_sources << source unless source.strip.empty?
+    end
+
+    # @param code [String]
     def strip_require_relative(code)
       code.gsub(REQUIRE_RELATIVE_PATTERN) do
         match = Regexp.last_match
