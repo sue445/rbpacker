@@ -35,7 +35,7 @@ RSpec.describe Rbpacker::SourceBundler do
       it { should eq expected }
     end
 
-    context "when there is other code on the same line as `require_relative`" do
+    context "when multiple `require_relative` calls are on the same line" do
       let(:path) { fixtures_dir.join("test3.rb") }
 
       let(:expected) do

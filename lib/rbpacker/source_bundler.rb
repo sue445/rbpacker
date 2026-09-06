@@ -2,6 +2,8 @@
 
 module Rbpacker
   # Bundles Ruby source files into a single script by resolving `require_relative`.
+  # NOTE: Bundling evaluates the input files to capture nested `require_relative` calls,
+  # so running this on untrusted sources can execute arbitrary code.
   class SourceBundler
     REQUIRE_RELATIVE_PATTERN = /
       (?<separator>\A|[;\n])
