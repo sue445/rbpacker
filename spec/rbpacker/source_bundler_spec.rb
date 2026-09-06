@@ -7,7 +7,7 @@ RSpec.describe Rbpacker::SourceBundler do
     subject { source_bundler.bundle(path.to_s).result }
 
     context "when file contains require_relative" do
-      let(:path) { fixtures_dir.join("test1.rb").to_s }
+      let(:path) { fixtures_dir.join("test1.rb") }
 
       let(:expected) do
         <<~RUBY
@@ -15,6 +15,36 @@ RSpec.describe Rbpacker::SourceBundler do
           end
           class B
           end
+        RUBY
+      end
+
+      it { should eq expected }
+    end
+
+    context "when there is other code on the same line as `require_relative`" do
+      let(:path) { fixtures_dir.join("test2.rb") }
+
+      let(:expected) do
+        <<~RUBY
+          class A
+          end
+          "a";; "b"
+        RUBY
+      end
+
+      it { should eq expected }
+    end
+
+    context "when there is other code on the same line as `require_relative`" do
+      let(:path) { fixtures_dir.join("test3.rb") }
+
+      let(:expected) do
+        <<~RUBY
+          class A
+          end
+          class B
+          end
+          ;
         RUBY
       end
 
