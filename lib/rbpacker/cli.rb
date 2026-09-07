@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "source_bundler"
+require "rbpacker"
 
 module Rbpacker
   # Command-line interface for rbpacker
