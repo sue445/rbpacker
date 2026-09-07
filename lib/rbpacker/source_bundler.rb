@@ -56,6 +56,7 @@ module Rbpacker
     private
 
     # @yield
+    # @private
     def with_require_relative_hook
       define_require_relative_hook if @depth.zero?
 
@@ -67,6 +68,7 @@ module Rbpacker
       restore_require_relative if @depth.zero?
     end
 
+    # @private
     def define_require_relative_hook
       current_bundler = self
 
@@ -84,10 +86,12 @@ module Rbpacker
       end
     end
 
+    # @private
     def restore_require_relative
       Kernel.send(:define_method, :require_relative, @original_require_relative)
     end
 
+    # @private
     def eval_and_collect_source(code, abs_path)
       source = strip_require_relative(code)
 
@@ -96,6 +100,7 @@ module Rbpacker
     end
 
     # @param code [String]
+    # @private
     def strip_require_relative(code)
       code.gsub(REQUIRE_RELATIVE_PATTERN) do
         match = Regexp.last_match
