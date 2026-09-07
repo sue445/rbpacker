@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "rbpacker/cli"
+require "rbpacker/version"
+require "optparse"
+
+opt = OptionParser.new
+params = {
+  src_file: nil,
+  dst_file: nil,
+}
+
+Version = Rbpacker::VERSION
+
+opt.on("--src-file SRC_FILE", "source file path") do |v|
+  params[:src_file] = v
+end
+
+opt.on("--dst-file DST_FILE", "destination file path (default: stdout)") do |v|
+  params[:dst_file] = v
+end
+
+opt.parse!(ARGV)
+
+unless params[:src_file]
+  warn "ERROR: --src-file is required"
+  warn opt
+  exit 1
+end
+
+Rbpacker::Cli.new.perform(src_file: params[:src_file], dst_file: params[:dst_file])

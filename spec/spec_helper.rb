@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "rbpacker"
+require "rbpacker/cli"
+require "rspec/temp_dir"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -11,6 +13,10 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.define_derived_metadata do |meta|
+    meta[:aggregate_failures] = true
   end
 end
 
