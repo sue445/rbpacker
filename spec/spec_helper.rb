@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rbpacker"
+require "rbpacker/cli"
 require "rspec/temp_dir"
 
 RSpec.configure do |config|
