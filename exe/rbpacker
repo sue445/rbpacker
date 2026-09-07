@@ -29,4 +29,14 @@ unless params[:src_file]
   exit 1
 end
 
+unless File.exist?(params[:src_file])
+  warn "ERROR: #{params[:src_file]} is not found"
+  exit 1
+end
+
+unless File.file?(params[:src_file])
+  warn "ERROR: #{params[:src_file]} must be a file"
+  exit 1
+end
+
 Rbpacker::Cli.new.perform(src_file: params[:src_file], dst_file: params[:dst_file])
