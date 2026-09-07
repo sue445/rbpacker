@@ -24,8 +24,8 @@ end
 opt.parse!(ARGV)
 
 unless params[:src_file]
-  puts "ERROR: --src-file is required"
-  puts opt
+  warn "ERROR: --src-file is required"
+  warn opt.to_s
   exit 1
 end
 
