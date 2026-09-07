@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["sue445"]
   spec.email = ["sue445@sue445.net"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
+  spec.summary = "Bundles and minifies multiple Ruby scripts into a single file"
+  spec.description = "Bundles and minifies multiple Ruby scripts into a single file"
   spec.homepage = "https://github.com/sue445/rbpacker"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.3.0"
