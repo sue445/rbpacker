@@ -12,9 +12,9 @@ module Rbpacker
 
       if dst_file
         File.binwrite(dst_file, content)
-        puts "#{dst_file} is created"
+        warn "#{dst_file} is created"
       else
-        puts content
+        $stdout.write(content)
       end
     end
   end
