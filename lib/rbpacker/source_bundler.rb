@@ -91,6 +91,8 @@ module Rbpacker
       Kernel.send(:define_method, :require_relative, @original_require_relative)
     end
 
+    # @param code [String]
+    # @param abs_path [String]
     # @private
     def eval_and_collect_source(code, abs_path)
       source = strip_require_relative(code)
