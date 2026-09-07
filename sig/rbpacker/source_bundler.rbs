@@ -3,7 +3,7 @@ module Rbpacker
     REQUIRE_RELATIVE_PATTERN: Regexp
 
     def initialize: () -> void
-    def bundle: (String file_path) -> SourceBundler
+    def bundle: (String filepath) -> SourceBundler
     def result: () -> String
 
     private
