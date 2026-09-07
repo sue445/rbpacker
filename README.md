@@ -1,6 +1,8 @@
 # Rbpacker
 Bundles and minifies multiple Ruby scripts into a single file
 
+[![test](https://github.com/sue445/rbpacker/actions/workflows/test.yml/badge.svg)](https://github.com/sue445/rbpacker/actions/workflows/test.yml)
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
