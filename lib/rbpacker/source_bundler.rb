@@ -68,7 +68,7 @@ module Rbpacker
     end
 
     def define_require_relative_hook
-      bundler = self
+      current_bundler = self
 
       Kernel.send(:define_method, :require_relative) do |relative_path|
         caller_location = caller_locations(1, 1)&.first
@@ -80,7 +80,7 @@ module Rbpacker
         caller_dir = File.dirname(caller_path)
         target_path = File.expand_path(relative_path, caller_dir)
 
-        bundler.bundle(target_path)
+        current_bundler.bundle(target_path)
       end
     end
 
