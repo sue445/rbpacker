@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rbs"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-temp_dir"
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop_auto_corrector"
   spec.add_development_dependency "steep"
