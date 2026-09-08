@@ -1,6 +1,7 @@
 # Rbpacker
 Bundles and minifies multiple Ruby scripts into a single file
 
+[![Gem Version](https://badge.fury.io/rb/rbpacker.svg)](https://badge.fury.io/rb/rbpacker)
 [![test](https://github.com/sue445/rbpacker/actions/workflows/test.yml/badge.svg)](https://github.com/sue445/rbpacker/actions/workflows/test.yml)
 
 ## Example
