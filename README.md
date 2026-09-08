@@ -3,6 +3,33 @@ Bundles and minifies multiple Ruby scripts into a single file
 
 [![test](https://github.com/sue445/rbpacker/actions/workflows/test.yml/badge.svg)](https://github.com/sue445/rbpacker/actions/workflows/test.yml)
 
+## Example
+```bash
+$ cat /path/to/test.rb 
+require_relative "a"
+require_relative "dir/b"
+
+$ cat /path/to/a.rb 
+class A
+end
+
+$ cat /path/to/dir/b.rb 
+class B
+end
+
+$ rbpacker --src-file /path/to/test.rb 
+class A
+end
+class B
+end
+
+$ rbpacker --src-file /path/to/test.rb --dst-file /tmp/output.rb
+/tmp/output.rb is created
+
+$ rbpacker --src-file /path/to/test.rb --minify
+class A;end;class B;end
+```
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -18,8 +45,13 @@ gem install rbpacker
 ```
 
 ## Usage
-
-TODO: Write usage instructions here
+```bash
+$ rbpacker --help
+Usage: rbpacker [options]
+        --src-file SRC_FILE          source file path
+        --dst-file DST_FILE          destination file path (default: stdout)
+        --minify                     whether to minify
+```
 
 ## Development
 
