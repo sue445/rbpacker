@@ -22,11 +22,14 @@ module Rbpacker
       (?=;|\n|\z)
     /x
 
+    LEADING_COMMENT_LINES_PATTERN = /\A(?<comments>(?:[ \t]*#.*\n)+)(?<blank_lines>(?:[ \t]*\n)*)/
+
     def initialize
       @loaded_files = Set.new
       @collected_sources = [] #: Array[String]
       @depth = 0
       @original_require_relative = Kernel.instance_method(:require_relative)
+      @entrypoint_comments_collected = false
     end
 
     # @param filepath [String]
@@ -96,12 +99,14 @@ module Rbpacker
     # @private
     def eval_and_collect_source(code, abs_path)
       source = strip_require_relative(code)
+      source = strip_magic_comment(source)
 
       TOPLEVEL_BINDING.eval(code, abs_path)
       @collected_sources << source unless source.strip.empty?
     end
 
     # @param code [String]
+    # @return [String]
     # @private
     def strip_require_relative(code)
       code.gsub(REQUIRE_RELATIVE_PATTERN) do
@@ -109,6 +114,22 @@ module Rbpacker
         raise Error, "regexp match is not found" unless match
 
         match[:separator] == ";" ? ";" : ""
+      end
+    end
+
+    # @param code [String]
+    # @private
+    def strip_magic_comment(code)
+      code.sub(LEADING_COMMENT_LINES_PATTERN) do
+        match = Regexp.last_match
+        raise Error, "regexp match is not found" unless match
+
+        if @depth == 1 && !@entrypoint_comments_collected
+          @entrypoint_comments_collected = true
+          @collected_sources << "#{match[:comments]}#{match[:blank_lines]}"
+        end
+
+        ""
       end
     end
   end

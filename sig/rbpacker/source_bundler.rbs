@@ -1,6 +1,7 @@
 module Rbpacker
   class SourceBundler
     REQUIRE_RELATIVE_PATTERN: Regexp
+    LEADING_COMMENT_LINES_PATTERN: Regexp
 
     def initialize: () -> void
     def bundle: (String filepath) -> SourceBundler
@@ -13,5 +14,6 @@ module Rbpacker
     def restore_require_relative: () -> void
     def eval_and_collect_source: (String code, String abs_path) -> void
     def strip_require_relative: (String code) -> String
+    def strip_magic_comment: (String code) -> String
   end
 end
