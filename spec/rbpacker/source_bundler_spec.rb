@@ -51,7 +51,7 @@ RSpec.describe Rbpacker::SourceBundler do
       it { should eq expected }
     end
 
-    context "when files contains magic comment" do
+    context "when file contains magic comment" do
       let(:path) { fixtures_dir.join("test_magic_comment.rb") }
 
       let(:expected) do
