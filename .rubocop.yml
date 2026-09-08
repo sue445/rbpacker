@@ -25,6 +25,9 @@ AllCops:
 Gemspec/DevelopmentDependencies:
   EnforcedStyle: gemspec
 
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
 Layout/LeadingCommentSpace:
   AllowRBSInlineAnnotation: true
 
@@ -35,6 +38,9 @@ Metrics/BlockLength:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
