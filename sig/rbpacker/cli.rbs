@@ -1,5 +1,5 @@
 module Rbpacker
   class Cli
-    def perform: (src_file: String, dst_file: String?) -> void
+    def perform: (src_file: String, dst_file: String?, minify: bool) -> void
   end
 end
