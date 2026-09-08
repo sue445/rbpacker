@@ -9,6 +9,7 @@ opt = OptionParser.new
 params = {
   src_file: nil,
   dst_file: nil,
+  minify:   false,
 }
 
 Version = Rbpacker::VERSION
@@ -19,6 +20,10 @@ end
 
 opt.on("--dst-file DST_FILE", "destination file path (default: stdout)") do |v|
   params[:dst_file] = v
+end
+
+opt.on("--minify", "whether to minify") do |v|
+  params[:minify] = v
 end
 
 opt.parse!(ARGV)
@@ -39,4 +44,8 @@ unless File.file?(params[:src_file])
   exit 1
 end
 
-Rbpacker::Cli.new.perform(src_file: params[:src_file], dst_file: params[:dst_file])
+Rbpacker::Cli.new.perform(
+  src_file: params[:src_file],
+  dst_file: params[:dst_file],
+  minify:   params[:minify],
+)
