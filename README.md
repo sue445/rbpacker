@@ -5,19 +5,19 @@ Bundles and minifies multiple Ruby scripts into a single file
 
 ## Example
 ```bash
-$ cat /path/to/test.rb 
+$ cat /path/to/test.rb
 require_relative "a"
 require_relative "dir/b"
 
-$ cat /path/to/a.rb 
+$ cat /path/to/a.rb
 class A
 end
 
-$ cat /path/to/dir/b.rb 
+$ cat /path/to/dir/b.rb
 class B
 end
 
-$ rbpacker --src-file /path/to/test.rb 
+$ rbpacker --src-file /path/to/test.rb
 class A
 end
 class B
